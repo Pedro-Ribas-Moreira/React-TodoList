@@ -1,16 +1,18 @@
 import React from "react";
 import "./App.css";
-import { Typography, Button } from "@mui/material";
 import ItemDiv from "./components/UI/ItemDiv";
-
+import MainDiv from "./components/UI/MainDiv";
+import AddTodo from "./components/Logic/AddTodo";
 function App() {
   return (
     <React.Fragment>
-      <Typography variant="h2" gutterBottom>
-        Hello World!
-      </Typography>
-      <Button variant="contained">Hello World</Button>
-      <ItemDiv>Hello</ItemDiv>
+      <AddTodo />
+
+      <MainDiv>
+        <ItemDiv>Hello World</ItemDiv>
+        <ItemDiv>Hello World</ItemDiv>
+        <ItemDiv>Hello World</ItemDiv>
+      </MainDiv>
     </React.Fragment>
   );
 }
