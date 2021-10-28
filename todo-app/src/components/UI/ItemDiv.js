@@ -1,6 +1,6 @@
 import React from "react";
 import { Checkbox, Typography } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
@@ -17,13 +17,27 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const ItemDiv = (props) => {
+  const deleteItemHandler = (id) => {
+    props.deleteItem(id);
+  };
+
   return (
-    <Item>
-      <Checkbox />
+    <Item key={props.id}>
+      <Checkbox ml={4} />
       <Typography sx={{ width: "100%", textAlign: "left" }}>
         {props.children}
       </Typography>
-      <HomeIcon />
+      <DeleteIcon
+        onClick={() => {
+          deleteItemHandler(props.id);
+        }}
+        sx={{
+          cursor: "pointer",
+          "&:hover": {
+            color: "error.main",
+          },
+        }}
+      />
     </Item>
   );
 };
