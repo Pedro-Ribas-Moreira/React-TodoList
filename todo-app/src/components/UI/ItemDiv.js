@@ -17,13 +17,20 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const ItemDiv = (props) => {
+  const checkChangeHandler = (e) => {
+    props.onCheck(props.id);
+  };
   const deleteItemHandler = (id) => {
     props.deleteItem(id);
   };
 
   return (
     <Item key={props.id}>
-      <Checkbox ml={4} />
+      <Checkbox
+        ml={4}
+        checked={props.isChecked}
+        onChange={checkChangeHandler}
+      />
       <Typography sx={{ width: "100%", textAlign: "left" }}>
         {props.children}
       </Typography>

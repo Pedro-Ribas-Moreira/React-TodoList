@@ -1,14 +1,22 @@
 import React from "react";
-import { Container, Stack } from "@mui/material/";
-import classes from "./MainDiv.module.css";
+import { Stack, Box, Typography } from "@mui/material/";
 
 const MainDiv = (props) => {
   return (
-    <Container
-      className={classes.main__div}
-      maxWidth="sm"
-      sx={{ boxShadow: 2, bgcolor: "papper.main", height: "100vh", pt: 2 }}
+    <Box
+      component="div"
+      sx={{
+        bgcolor: "background.paper",
+        boxShadow: 4,
+        borderRadius: 1,
+        p: 4,
+        width: "60vw",
+        minHeight: "80vh",
+      }}
     >
+      <Typography variant="h3" color="initial" mb={2} align="center">
+        Tasks
+      </Typography>
       <Stack
         direction="column"
         justifyContent="center"
@@ -17,7 +25,7 @@ const MainDiv = (props) => {
       >
         {props.children}
       </Stack>
-    </Container>
+    </Box>
   );
 };
 
