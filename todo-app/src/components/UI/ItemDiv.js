@@ -31,9 +31,27 @@ const ItemDiv = (props) => {
         checked={props.isChecked}
         onChange={checkChangeHandler}
       />
-      <Typography sx={{ width: "100%", textAlign: "left" }}>
-        {props.children}
-      </Typography>
+      {props.isChecked === true ? (
+        <Typography
+          sx={{
+            width: "100%",
+            textAlign: "left",
+            textDecoration: "line-through",
+          }}
+        >
+          {props.children}
+        </Typography>
+      ) : (
+        <Typography
+          sx={{
+            width: "100%",
+            textAlign: "left",
+          }}
+        >
+          {props.children}
+        </Typography>
+      )}
+
       <DeleteIcon
         onClick={() => {
           deleteItemHandler(props.id);

@@ -15,13 +15,21 @@ function App() {
       setCurrentItems([]);
     } else {
       todos = JSON.parse(localStorage.getItem("todos"));
+      todos.sort(function (a, b) {
+        if (a.key < b.key) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+
       setCurrentItems(todos);
     }
   }, []);
 
   const addItemHandler = (item) => {
     setCurrentItems((oldItems) => {
-      return [item, ...oldItems];
+      return [...oldItems, item];
     });
 
     let todos;
@@ -30,7 +38,7 @@ function App() {
     } else {
       todos = JSON.parse(localStorage.getItem("todos"));
     }
-    const todoItem = { check: "false", text: item.text, key: item.key };
+    const todoItem = { check: false, text: item.text, key: item.key };
     todos.push(todoItem);
     localStorage.setItem("todos", JSON.stringify(todos));
   };
@@ -74,11 +82,8 @@ function App() {
     });
     localStorage.setItem("todos", JSON.stringify(todos));
 
-    const newList = currentItems;
-    const objIndex = newList.findIndex((obj) => obj.key === id);
-    newList[objIndex].check = !newList[objIndex].check;
-    setCurrentItems(newList);
-    console.log(currentItems);
+    setCurrentItems(todos);
+    console.log(todos);
   };
 
   // --------------------------------------
