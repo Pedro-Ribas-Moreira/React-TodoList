@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import ItemDiv from "./components/UI/ItemDiv";
-import MainDiv from "./components/UI/MainDiv";
+import MainDiv from "./components/Logic/MainDiv";
 import AddTodo from "./components/Logic/AddTodo";
 
 import Box from "@mui/material/Box";
