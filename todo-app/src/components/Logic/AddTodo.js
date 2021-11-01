@@ -8,6 +8,7 @@ import AddBtn from "../UI/AddBtn";
 
 const AddTodo = (props) => {
   const [newTodo, setNewTodo] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const [addState, setAddState] = useState(false);
 
   const showFormHandler = () => {
@@ -16,19 +17,25 @@ const AddTodo = (props) => {
   const changeValueHandler = (event) => {
     setNewTodo(event.target.value);
   };
+  const changeDescriptionHandler = (event) => {
+    setNewDescription(event.target.value);
+  };
 
   const addTodoHandler = (event) => {
     event.preventDefault();
-    const inputText = newTodo;
+    const titleText = newTodo;
+    const descText = newDescription;
 
-    if (inputText.trim().length === 0) {
+    if (titleText.trim().length === 0 || descText.trim().length === 0) {
       return;
     }
     props.onNewItem({
-      text: inputText,
+      title: titleText,
+      text: descText,
       key: new Date().getTime(),
     });
     setNewTodo("");
+    setNewDescription("");
     setTimeout(() => {
       setAddState(!addState);
       console.log("change");
@@ -57,10 +64,22 @@ const AddTodo = (props) => {
           }}
         >
           <TextField
-            placeholder="Write a new To Do!"
+            placeholder="Note title"
+            label="Note title"
+            fullWidth
+            required
             onChange={changeValueHandler}
             value={newTodo}
             margin="dense"
+          />
+          <TextField
+            placeholder="Note description"
+            label="Note description"
+            multiline
+            rows={4}
+            fullWidth
+            value={newDescription}
+            onChange={changeDescriptionHandler}
           />
           <Button variant="contained" type="submit" onClick={addTodoHandler}>
             Add Item

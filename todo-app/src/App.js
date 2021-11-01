@@ -38,7 +38,12 @@ function App() {
     } else {
       todos = JSON.parse(localStorage.getItem("todos"));
     }
-    const todoItem = { check: false, text: item.text, key: item.key };
+    const todoItem = {
+      check: false,
+      title: item.title,
+      text: item.text,
+      key: item.key,
+    };
     todos.push(todoItem);
     localStorage.setItem("todos", JSON.stringify(todos));
   };
@@ -93,11 +98,11 @@ function App() {
       <ItemDiv
         deleteItem={removeUserHandler}
         id={e.key}
+        title={e.title}
+        text={e.text}
         isChecked={e.check}
         onCheck={onCheckHandler}
-      >
-        {e.text}
-      </ItemDiv>
+      />
     );
   });
 

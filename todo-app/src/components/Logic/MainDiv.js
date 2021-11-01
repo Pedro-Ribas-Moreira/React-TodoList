@@ -24,6 +24,7 @@ const MainDiv = (props) => {
           sx={{
             borderTopLeftRadius: "5%",
             borderBottomLeftRadius: "5%",
+            boxShadow: 4,
           }}
         >
           <Grid
@@ -60,6 +61,7 @@ const MainDiv = (props) => {
           sx={{
             borderTopRightRadius: "5%",
             borderBottomRightRadius: "5%",
+            boxShadow: 4,
           }}
         >
           <Stack
