@@ -40,6 +40,7 @@ function App() {
     }
     const todoItem = {
       check: false,
+      priority: false,
       title: item.title,
       text: item.text,
       key: item.key,
@@ -50,7 +51,6 @@ function App() {
 
   const removeUserHandler = (id) => {
     const newList = currentItems.filter((item) => item.key !== id);
-    console.log(newList);
     setCurrentItems(newList);
 
     let todos;
@@ -63,7 +63,6 @@ function App() {
     const todoKey = id;
     todos.forEach(function (todo) {
       if (todo.key === todoKey) {
-        console.log(todos.indexOf(todo));
         todos.splice(todos.indexOf(todo), 1);
       }
     });
@@ -88,7 +87,24 @@ function App() {
     localStorage.setItem("todos", JSON.stringify(todos));
 
     setCurrentItems(todos);
-    console.log(todos);
+  };
+
+  const onPriorityHandler = (id) => {
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+      todos = [];
+    } else {
+      todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    const key = id;
+    todos.forEach(function (todo) {
+      if (todo.key === key) {
+        todo.priority = !todo.priority;
+      }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+
+    setCurrentItems(todos);
   };
 
   // --------------------------------------
@@ -97,10 +113,12 @@ function App() {
     return (
       <ItemDiv
         deleteItem={removeUserHandler}
+        priorityItem={onPriorityHandler}
         id={e.key}
         title={e.title}
         text={e.text}
         isChecked={e.check}
+        isPriority={e.priority}
         onCheck={onCheckHandler}
       />
     );
@@ -113,7 +131,7 @@ function App() {
         placeContent: "center",
         height: "100vh",
         width: "100%",
-        background: "linear-gradient(to right, #2193b0, #6dd5ed)",
+        background: "linear-gradient(to right, #E1E9E8, #E8EEED)",
       }}
     >
       <MainDiv>{list}</MainDiv>

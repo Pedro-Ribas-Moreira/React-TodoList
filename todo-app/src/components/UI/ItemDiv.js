@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Checkbox, Typography, Stack, Box } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+
+import CustomIconBtn from "./CustomIconBtn";
 
 // expand div
 
@@ -13,23 +14,18 @@ import { styled } from "@mui/material/styles";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
-  // textAlign: "center",
   width: "80%",
-  // display: "flex",
   borderRadius: "20px",
   elevation: 14,
+  background: "#F7FAF9",
   justifyContent: "space-between",
   alignItems: "center",
   color: theme.palette.text.secondary,
 }));
 
 const BoxItem = styled(Box)(({ theme }) => ({
-  // padding: theme.spacing(2),
-  // textAlign: "center",
   width: "100%",
   display: "flex",
-  // borderRadius: "20px",
-  justifyContent: "space-between",
   alignItems: "center",
 }));
 
@@ -63,15 +59,18 @@ const ItemDiv = (props) => {
   const deleteItemHandler = (id) => {
     props.deleteItem(id);
   };
+  const priorityItemHandler = (id) => {
+    props.priorityItem(id);
+  };
 
   return (
     <Item key={props.id}>
       <Stack direction="column">
         <BoxItem>
           <Checkbox
-            ml={4}
             checked={props.isChecked}
             onChange={checkChangeHandler}
+            sx={{ padding: "10px" }}
           />
           {props.isChecked === true ? (
             <ItemTitle
@@ -89,9 +88,31 @@ const ItemDiv = (props) => {
             aria-expanded={expanded}
             aria-label="show more"
           >
-            <ExpandMoreIcon />
+            <ExpandMoreIcon sx={{ padding: "10px" }} />
           </ExpandMore>
-          <IconButton
+
+          {props.isPriority === true ? (
+            <CustomIconBtn
+              aria-label="priority"
+              onClick={() => {
+                priorityItemHandler(props.id);
+              }}
+              sx={{ color: "error.main" }}
+            >
+              flag
+            </CustomIconBtn>
+          ) : (
+            <CustomIconBtn
+              aria-label="priority"
+              onClick={() => {
+                priorityItemHandler(props.id);
+              }}
+            >
+              flag
+            </CustomIconBtn>
+          )}
+
+          <CustomIconBtn
             aria-label="delete"
             onClick={() => {
               deleteItemHandler(props.id);
@@ -102,11 +123,11 @@ const ItemDiv = (props) => {
               },
             }}
           >
-            <DeleteIcon sx={{ padding: "10px" }} />
-          </IconButton>
+            delete
+          </CustomIconBtn>
         </BoxItem>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Box sx={{ padding: 6, paddingTop: 2 }}>
+          <Box sx={{ padding: 2 }}>
             <Typography paragraph>{props.text}</Typography>
           </Box>
         </Collapse>

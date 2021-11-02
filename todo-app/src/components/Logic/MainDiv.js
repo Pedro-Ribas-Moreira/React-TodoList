@@ -5,7 +5,7 @@ import TypeItem from "../UI/TypeItem";
 
 const CustomGrid = styled(Grid)(({ theme }) => ({
   height: "100%",
-  background: theme.palette.background.paper,
+  background: "#FEFEFE",
   padding: "5%",
 }));
 
@@ -64,12 +64,7 @@ const MainDiv = (props) => {
             boxShadow: 4,
           }}
         >
-          <Stack
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            spacing={1}
-          >
+          <Stack direction="column" justifyContent="center" alignItems="center">
             {props.children}
           </Stack>
         </CustomGrid>

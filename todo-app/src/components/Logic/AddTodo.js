@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import FormGroup from "@mui/material/FormGroup";
 import Box from "@mui/material/Box";
 import AddBtn from "../UI/AddBtn";
+import { Typography } from "@material-ui/core";
 
 const AddTodo = (props) => {
   const [newTodo, setNewTodo] = useState("");
@@ -63,21 +64,24 @@ const AddTodo = (props) => {
             maxWidth: 800,
           }}
         >
+          <Typography variant="h5" gutterBottom>
+            Add a new task:
+          </Typography>
           <TextField
-            placeholder="Note title"
-            label="Note title"
+            placeholder="Task title:"
+            label="Task title:"
             fullWidth
-            required
             onChange={changeValueHandler}
             value={newTodo}
             margin="dense"
           />
           <TextField
-            placeholder="Note description"
-            label="Note description"
+            placeholder="Task description"
+            label="Task description"
             multiline
             rows={4}
             fullWidth
+            sx={{ marginBottom: 2, marginTop: 2 }}
             value={newDescription}
             onChange={changeDescriptionHandler}
           />
