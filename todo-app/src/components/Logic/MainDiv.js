@@ -64,7 +64,7 @@ const MainDiv = (props) => {
             boxShadow: 4,
           }}
         >
-          <Stack direction="column" justifyContent="center" alignItems="center">
+          <Stack direction="column" alignItems="center">
             {props.children}
           </Stack>
         </CustomGrid>
