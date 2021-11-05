@@ -27,6 +27,8 @@ import ItemDiv from "../UI/ItemDiv";
 // import Deposits from "./Deposits";
 // import Orders from "./Orders";
 
+import UpperSideBar from "./UpperSideBar";
+
 function Copyright(props) {
   return (
     <Typography
@@ -127,6 +129,8 @@ function DashboardContent() {
     const todoItem = {
       check: false,
       priority: false,
+      archive: false,
+      waiting: false,
       title: item.title,
       text: item.text,
       key: item.key,
@@ -193,18 +197,58 @@ function DashboardContent() {
     setCurrentItems(todos);
   };
 
+  const onArchiveHandler = (id) => {
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+      todos = [];
+    } else {
+      todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    const key = id;
+    todos.forEach(function (todo) {
+      if (todo.key === key) {
+        todo.archive = !todo.archive;
+      }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+
+    setCurrentItems(todos);
+  };
+
+  const waitingItemHandler = (id) => {
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+      todos = [];
+    } else {
+      todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    const key = id;
+    todos.forEach(function (todo) {
+      if (todo.key === key) {
+        todo.waiting = !todo.waiting;
+      }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+
+    setCurrentItems(todos);
+  };
   // --------------------------------------
 
   const list = currentItems.map((e) => {
     return (
       <ItemDiv
+        key={e.key}
+        waitingItem={waitingItemHandler}
         deleteItem={removeUserHandler}
         priorityItem={onPriorityHandler}
+        archiveItem={onArchiveHandler}
         id={e.key}
         title={e.title}
         text={e.text}
         isChecked={e.check}
         isPriority={e.priority}
+        isArchived={e.archive}
+        isWaiting={e.waiting}
         onCheck={onCheckHandler}
       />
     );
@@ -267,7 +311,9 @@ function DashboardContent() {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List>{mainListItems}</List>
+          <List>
+            <UpperSideBar list={currentItems} />
+          </List>
           <Divider />
           <List sx={{ marginTop: "auto", marginBottom: "10%" }}>
             {secondaryListItems}

@@ -22,12 +22,10 @@ const WrappedIcon = (props) => (
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   width: "100%",
-  borderRadius: "20px",
-  elevation: 14,
-  background: "#F7FAF9",
+  borderRadius: "5px",
   justifyContent: "space-between",
   alignItems: "center",
-  margin: 4,
+  margin: 6,
   color: theme.palette.text.secondary,
 }));
 
@@ -70,6 +68,14 @@ const ItemDiv = (props) => {
   };
   const priorityItemHandler = (id) => {
     props.priorityItem(id);
+  };
+
+  const archiveItemHandler = (id) => {
+    props.archiveItem(id);
+  };
+
+  const waitingItemHandler = (id) => {
+    props.waitingItem(id);
   };
 
   return (
@@ -146,11 +152,27 @@ const ItemDiv = (props) => {
             </WrappedIcon>
           </IconButton>
 
-          <IconButton>
-            <WrappedIcon>archive</WrappedIcon>
+          <IconButton
+            onClick={() => {
+              archiveItemHandler(props.id);
+            }}
+          >
+            {props.isArchived === true ? (
+              <WrappedIcon sx={{ color: "primary.dark" }}>archive</WrappedIcon>
+            ) : (
+              <WrappedIcon>archive</WrappedIcon>
+            )}{" "}
           </IconButton>
-          <IconButton>
-            <WrappedIcon>alarm</WrappedIcon>
+          <IconButton
+            onClick={() => {
+              waitingItemHandler(props.id);
+            }}
+          >
+            {props.isWaiting === true ? (
+              <WrappedIcon sx={{ color: "primary.dark" }}>alarm</WrappedIcon>
+            ) : (
+              <WrappedIcon>alarm</WrappedIcon>
+            )}
           </IconButton>
         </BoxItem>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
