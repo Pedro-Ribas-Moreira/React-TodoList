@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox, Typography, Stack, Box } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Icon from "@mui/material/Icon";
 // expand div
 
@@ -60,8 +59,8 @@ const ItemDiv = (props) => {
     setExpanded(!expanded);
   };
 
-  const checkChangeHandler = (e) => {
-    props.onCheck(props.id);
+  const checkChangeHandler = (id) => {
+    props.onCheck(id);
   };
   const deleteItemHandler = (id) => {
     props.deleteItem(id);
@@ -78,51 +77,75 @@ const ItemDiv = (props) => {
     props.waitingItem(id);
   };
 
-  return (
-    <Item key={props.id}>
-      <Stack direction="column">
-        <BoxItem>
-          <Checkbox checked={props.isChecked} onChange={checkChangeHandler} />
-          {props.isChecked === true ? (
-            <ItemTitle
-              sx={{
-                textDecoration: "line-through",
-                color: "#D3D3D3",
+  const listOfTasks = props.list.map((e) => {
+    return (
+      <Item key={e.key}>
+        <Stack direction="column">
+          <BoxItem>
+            <Checkbox
+              checked={e.check}
+              onChange={() => {
+                checkChangeHandler(e.key);
               }}
-            >
-              {props.title}
-            </ItemTitle>
-          ) : (
-            <ItemTitle>{props.title}</ItemTitle>
-          )}
-
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
-
-          <IconButton
-            aria-label="priority"
-            onClick={() => {
-              priorityItemHandler(props.id);
-            }}
-            sx={{
-              cursor: "pointer",
-            }}
-          >
-            {props.isPriority === true ? (
-              <WrappedIcon
+            />
+            {e.check === true ? (
+              <ItemTitle
                 sx={{
-                  color: "error.main",
+                  textDecoration: "line-through",
+                  color: "#D3D3D3",
                 }}
               >
-                flag
-              </WrappedIcon>
+                {e.title}
+              </ItemTitle>
             ) : (
+              <ItemTitle>{e.title}</ItemTitle>
+            )}
+
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+
+            <IconButton
+              aria-label="priority"
+              onClick={() => {
+                priorityItemHandler(e.key);
+              }}
+              sx={{
+                cursor: "pointer",
+              }}
+            >
+              {e.priority === true ? (
+                <WrappedIcon
+                  sx={{
+                    color: "error.main",
+                  }}
+                >
+                  flag
+                </WrappedIcon>
+              ) : (
+                <WrappedIcon
+                  sx={{
+                    "&:hover ": {
+                      color: "error.main",
+                    },
+                  }}
+                >
+                  flag
+                </WrappedIcon>
+              )}
+            </IconButton>
+
+            <IconButton
+              onClick={() => {
+                deleteItemHandler(e.key);
+              }}
+              sx={{ cursor: "pointer" }}
+            >
               <WrappedIcon
                 sx={{
                   "&:hover ": {
@@ -130,59 +153,46 @@ const ItemDiv = (props) => {
                   },
                 }}
               >
-                flag
+                delete
               </WrappedIcon>
-            )}
-          </IconButton>
+            </IconButton>
 
-          <IconButton
-            onClick={() => {
-              deleteItemHandler(props.id);
-            }}
-            sx={{ cursor: "pointer" }}
-          >
-            <WrappedIcon
-              sx={{
-                "&:hover ": {
-                  color: "error.main",
-                },
+            <IconButton
+              onClick={() => {
+                archiveItemHandler(e.key);
               }}
             >
-              delete
-            </WrappedIcon>
-          </IconButton>
+              {e.archive === true ? (
+                <WrappedIcon sx={{ color: "primary.dark" }}>
+                  archive
+                </WrappedIcon>
+              ) : (
+                <WrappedIcon>archive</WrappedIcon>
+              )}
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                waitingItemHandler(e.key);
+              }}
+            >
+              {e.waiting === true ? (
+                <WrappedIcon sx={{ color: "primary.dark" }}>alarm</WrappedIcon>
+              ) : (
+                <WrappedIcon>alarm</WrappedIcon>
+              )}
+            </IconButton>
+          </BoxItem>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Box sx={{ padding: 2 }}>
+              <Typography paragraph>{e.text}</Typography>
+            </Box>
+          </Collapse>
+        </Stack>
+      </Item>
+    );
+  });
 
-          <IconButton
-            onClick={() => {
-              archiveItemHandler(props.id);
-            }}
-          >
-            {props.isArchived === true ? (
-              <WrappedIcon sx={{ color: "primary.dark" }}>archive</WrappedIcon>
-            ) : (
-              <WrappedIcon>archive</WrappedIcon>
-            )}{" "}
-          </IconButton>
-          <IconButton
-            onClick={() => {
-              waitingItemHandler(props.id);
-            }}
-          >
-            {props.isWaiting === true ? (
-              <WrappedIcon sx={{ color: "primary.dark" }}>alarm</WrappedIcon>
-            ) : (
-              <WrappedIcon>alarm</WrappedIcon>
-            )}
-          </IconButton>
-        </BoxItem>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Box sx={{ padding: 2 }}>
-            <Typography paragraph>{props.text}</Typography>
-          </Box>
-        </Collapse>
-      </Stack>
-    </Item>
-  );
+  return listOfTasks;
 };
 
 export default ItemDiv;
@@ -220,3 +230,108 @@ export default ItemDiv;
 // </ListItemIcon>
 // <ListItemText primary="Completed" />
 // </ListItem>
+
+//   <Item key={props.id}>
+//     <Stack direction="column">
+//       <BoxItem>
+//         <Checkbox checked={props.isChecked} onChange={checkChangeHandler} />
+//         {props.isChecked === true ? (
+//           <ItemTitle
+//             sx={{
+//               textDecoration: "line-through",
+//               color: "#D3D3D3",
+//             }}
+//           >
+//             {props.title}
+//           </ItemTitle>
+//         ) : (
+//           <ItemTitle>{props.title}</ItemTitle>
+//         )}
+
+//         <ExpandMore
+//           expand={expanded}
+//           onClick={handleExpandClick}
+//           aria-expanded={expanded}
+//           aria-label="show more"
+//         >
+//           <ExpandMoreIcon />
+//         </ExpandMore>
+
+//         <IconButton
+//           aria-label="priority"
+//           onClick={() => {
+//             priorityItemHandler(props.id);
+//           }}
+//           sx={{
+//             cursor: "pointer",
+//           }}
+//         >
+//           {props.isPriority === true ? (
+//             <WrappedIcon
+//               sx={{
+//                 color: "error.main",
+//               }}
+//             >
+//               flag
+//             </WrappedIcon>
+//           ) : (
+//             <WrappedIcon
+//               sx={{
+//                 "&:hover ": {
+//                   color: "error.main",
+//                 },
+//               }}
+//             >
+//               flag
+//             </WrappedIcon>
+//           )}
+//         </IconButton>
+
+//         <IconButton
+//           onClick={() => {
+//             deleteItemHandler(props.id);
+//           }}
+//           sx={{ cursor: "pointer" }}
+//         >
+//           <WrappedIcon
+//             sx={{
+//               "&:hover ": {
+//                 color: "error.main",
+//               },
+//             }}
+//           >
+//             delete
+//           </WrappedIcon>
+//         </IconButton>
+
+//         <IconButton
+//           onClick={() => {
+//             archiveItemHandler(props.id);
+//           }}
+//         >
+//           {props.isArchived === true ? (
+//             <WrappedIcon sx={{ color: "primary.dark" }}>archive</WrappedIcon>
+//           ) : (
+//             <WrappedIcon>archive</WrappedIcon>
+//           )}{" "}
+//         </IconButton>
+//         <IconButton
+//           onClick={() => {
+//             waitingItemHandler(props.id);
+//           }}
+//         >
+//           {props.isWaiting === true ? (
+//             <WrappedIcon sx={{ color: "primary.dark" }}>alarm</WrappedIcon>
+//           ) : (
+//             <WrappedIcon>alarm</WrappedIcon>
+//           )}
+//         </IconButton>
+//       </BoxItem>
+//       <Collapse in={expanded} timeout="auto" unmountOnExit>
+//         <Box sx={{ padding: 2 }}>
+//           <Typography paragraph>{props.text}</Typography>
+//         </Box>
+//       </Collapse>
+//     </Stack>
+//   </Item>
+// );

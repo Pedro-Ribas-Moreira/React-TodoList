@@ -19,7 +19,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-import { mainListItems, secondaryListItems } from "./listItems";
+import { secondaryListItems } from "./listItems";
 
 import AddTodo from "../Logic/AddTodo";
 import ItemDiv from "../UI/ItemDiv";
@@ -95,9 +95,9 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
+const DashboardContent = () => {
   const [currentItems, setCurrentItems] = useState([]);
-
+  const [filterTag, setFilterTag] = useState("all");
   useEffect(() => {
     let todos;
     if (localStorage.getItem("todos") === null) {
@@ -116,16 +116,6 @@ function DashboardContent() {
   }, []);
 
   const addItemHandler = (item) => {
-    setCurrentItems((oldItems) => {
-      return [...oldItems, item];
-    });
-
-    let todos;
-    if (localStorage.getItem("todos") === null) {
-      todos = [];
-    } else {
-      todos = JSON.parse(localStorage.getItem("todos"));
-    }
     const todoItem = {
       check: false,
       priority: false,
@@ -135,6 +125,19 @@ function DashboardContent() {
       text: item.text,
       key: item.key,
     };
+    setCurrentItems((oldItems) => {
+      return [...oldItems, todoItem];
+    });
+
+    console.log("adicionou");
+
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+      todos = [];
+    } else {
+      todos = JSON.parse(localStorage.getItem("todos"));
+    }
+
     todos.push(todoItem);
     localStorage.setItem("todos", JSON.stringify(todos));
   };
@@ -229,36 +232,25 @@ function DashboardContent() {
       }
     });
     localStorage.setItem("todos", JSON.stringify(todos));
-
     setCurrentItems(todos);
   };
   // --------------------------------------
-
-  const list = currentItems.map((e) => {
-    return (
-      <ItemDiv
-        key={e.key}
-        waitingItem={waitingItemHandler}
-        deleteItem={removeUserHandler}
-        priorityItem={onPriorityHandler}
-        archiveItem={onArchiveHandler}
-        id={e.key}
-        title={e.title}
-        text={e.text}
-        isChecked={e.check}
-        isPriority={e.priority}
-        isArchived={e.archive}
-        isWaiting={e.waiting}
-        onCheck={onCheckHandler}
-      />
-    );
-  });
+  const filterListHandler = (arg) => {
+    setFilterTag(arg);
+  };
 
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  const listTask = currentItems.filter((e) => {
+    if (filterTag === "all" && e.check === false) {
+      return e;
+    } else if (e[filterTag]) {
+      return e;
+    }
+  });
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -312,7 +304,7 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List>
-            <UpperSideBar list={currentItems} />
+            <UpperSideBar filterList={filterListHandler} list={currentItems} />
           </List>
           <Divider />
           <List sx={{ marginTop: "auto", marginBottom: "10%" }}>
@@ -342,7 +334,14 @@ function DashboardContent() {
                     flexDirection: "column",
                   }}
                 >
-                  {list}
+                  <ItemDiv
+                    list={listTask}
+                    waitingItem={waitingItemHandler}
+                    deleteItem={removeUserHandler}
+                    priorityItem={onPriorityHandler}
+                    archiveItem={onArchiveHandler}
+                    onCheck={onCheckHandler}
+                  />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
@@ -363,7 +362,7 @@ function DashboardContent() {
       </Box>
     </ThemeProvider>
   );
-}
+};
 
 export default function Dashboard() {
   return <DashboardContent />;

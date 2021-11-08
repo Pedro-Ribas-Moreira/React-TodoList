@@ -6,8 +6,7 @@ import Icon from "@mui/material/Icon";
 
 const WrappedIcon = (props) => (
   <Icon {...props} sx={{ ...props.sx }}>
-    {" "}
-    {props.children}{" "}
+    {props.children}
   </Icon>
 );
 

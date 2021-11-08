@@ -7,8 +7,7 @@ import Icon from "@mui/material/Icon";
 
 const WrappedIcon = (props) => (
   <Icon {...props} sx={{ ...props.sx }}>
-    {" "}
-    {props.children}{" "}
+    {props.children}
   </Icon>
 );
 
@@ -16,7 +15,6 @@ const UpperSideBar = (props) => {
   const numberBadge = (arg) => {
     const list = props.list;
     let count = 0;
-    console.log(list);
     for (let i = 0; i < list.length; i++) {
       if (arg === "priority") {
         if (list[i].priority) {
@@ -36,21 +34,34 @@ const UpperSideBar = (props) => {
         }
       }
     }
-    console.log(count);
     return count;
+  };
+
+  const listFilterHandler = (arg) => {
+    props.filterList(arg);
   };
   //for each item add a count+
   // create a badge with the count
 
   return (
     <div>
-      <ListItem button>
+      <ListItem
+        button
+        onClick={() => {
+          listFilterHandler("all");
+        }}
+      >
         <ListItemIcon>
           <WrappedIcon> dashboard </WrappedIcon>
         </ListItemIcon>
         <ListItemText primary="All Tasks" />
       </ListItem>
-      <ListItem button>
+      <ListItem
+        button
+        onClick={() => {
+          listFilterHandler("priority");
+        }}
+      >
         <ListItemIcon>
           <Badge badgeContent={numberBadge("priority")} color="secondary">
             <WrappedIcon> flag </WrappedIcon>
@@ -58,7 +69,12 @@ const UpperSideBar = (props) => {
         </ListItemIcon>
         <ListItemText primary="Priorities" />
       </ListItem>
-      <ListItem button>
+      <ListItem
+        button
+        onClick={() => {
+          listFilterHandler("waiting");
+        }}
+      >
         <ListItemIcon>
           <Badge badgeContent={numberBadge("waiting")} color="secondary">
             <WrappedIcon> alarm </WrappedIcon>
@@ -66,7 +82,12 @@ const UpperSideBar = (props) => {
         </ListItemIcon>
         <ListItemText primary="Waiting" />
       </ListItem>
-      <ListItem button>
+      <ListItem
+        button
+        onClick={() => {
+          listFilterHandler("archive");
+        }}
+      >
         <ListItemIcon>
           <Badge badgeContent={numberBadge("archive")} color="secondary">
             <WrappedIcon> archive </WrappedIcon>
@@ -74,7 +95,12 @@ const UpperSideBar = (props) => {
         </ListItemIcon>
         <ListItemText primary="Archived" />
       </ListItem>
-      <ListItem button>
+      <ListItem
+        button
+        onClick={() => {
+          listFilterHandler("check");
+        }}
+      >
         <ListItemIcon>
           <Badge badgeContent={numberBadge("completed")} color="secondary">
             <WrappedIcon
