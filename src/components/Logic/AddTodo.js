@@ -2,9 +2,6 @@ import { React, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FormGroup from "@mui/material/FormGroup";
-// import Box from "@mui/material/Box";
-// import AddBtn from "../UI/AddBtn";
-import { Typography } from "@material-ui/core";
 
 const AddTodo = (props) => {
   const [newTodo, setNewTodo] = useState("");
@@ -19,6 +16,7 @@ const AddTodo = (props) => {
 
   const addTodoHandler = (event) => {
     event.preventDefault();
+
     const titleText = newTodo;
     const descText = newDescription;
 
@@ -36,6 +34,7 @@ const AddTodo = (props) => {
 
   return (
     <FormGroup
+      md={4}
       sx={{
         display: "flex",
         flexDirection: "column",
