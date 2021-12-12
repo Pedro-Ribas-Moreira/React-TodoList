@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ItemDiv from "./TodoItems/ItemDiv";
-import AddTodo from "./TodoItems/TodoAdd/AddTodo";
+import AddTodo from "./TodoAdd/AddTodo";
 import { useEffect } from "react";
 
 const TodoList = (props) => {
@@ -154,8 +154,9 @@ const TodoList = (props) => {
   };
 
   return (
-    <Grid item xs={11} md={11} lg={12}>
+    <Grid data-testid="todo__grid" item xs={11} md={11} lg={12}>
       <Paper
+        data-testid="todos__div"
         sx={{
           p: 1,
           display: "flex",
@@ -165,9 +166,10 @@ const TodoList = (props) => {
           overflowY: "auto",
         }}
       >
-        {props.listTodos.map((e) => {
+        {props.listTodos.map((e, index) => {
           return (
             <ItemDiv
+              key={index}
               task={e}
               waitingItem={waitingItemHandler}
               deleteItem={removeUserHandler}
@@ -187,7 +189,10 @@ const TodoList = (props) => {
         }}
       >
         {addTodo ? (
-          <AddTodo onNewItem={addItemHandler} />
+          <AddTodo
+            data-testid="addTodo__component"
+            onNewItem={addItemHandler}
+          />
         ) : (
           <Button onClick={addTodoHandler}>New Task</Button>
         )}

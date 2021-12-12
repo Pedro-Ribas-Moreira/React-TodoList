@@ -50,7 +50,7 @@ const AddTodo = (props) => {
       />
       <TextField
         placeholder="Task description"
-        label="Task description"
+        label="Task description:"
         multiline
         rows={4}
         fullWidth
@@ -58,7 +58,12 @@ const AddTodo = (props) => {
         value={newDescription}
         onChange={changeDescriptionHandler}
       />
-      <Button variant="contained" type="submit" onClick={addTodoHandler}>
+      <Button
+        data-testid="add__todo_btn"
+        variant="contained"
+        type="submit"
+        onClick={addTodoHandler}
+      >
         Add new task
       </Button>
     </FormGroup>

@@ -1,8 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-
 import MuiDrawer from "@mui/material/Drawer";
-
 import MuiAppBar from "@mui/material/AppBar";
 import Badge from "@mui/material/Badge";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,10 +9,8 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-
 import UpperSideBar from "./SideBar/UpperSideBar";
 import BottomSideBar from "./SideBar/BottomSideBar";
 
@@ -64,7 +60,7 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const Header = (props) => {
+const Headers = (props) => {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -79,13 +75,14 @@ const Header = (props) => {
           }}
         >
           <IconButton
+            data-testid="drawer-closed"
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={toggleDrawer}
             sx={{
               marginRight: "36px",
-              ...(open && { display: "none" }),
+              ...(open && { display: "none", opacity: 0 }),
             }}
           >
             <MenuIcon />
@@ -115,7 +112,13 @@ const Header = (props) => {
             px: [1],
           }}
         >
-          <IconButton onClick={toggleDrawer}>
+          <IconButton
+            data-testid="drawer-open"
+            sx={{
+              ...(!open && { display: "none", opacity: 0 }),
+            }}
+            onClick={toggleDrawer}
+          >
             <ChevronLeftIcon />
           </IconButton>
         </Toolbar>
@@ -132,4 +135,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default Headers;

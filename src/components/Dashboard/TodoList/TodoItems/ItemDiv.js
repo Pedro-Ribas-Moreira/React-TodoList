@@ -89,6 +89,7 @@ const ItemDiv = (props) => {
 
           <ExpandMoreBtn onChange={changeCollapseHandler} />
           <IconButton
+            data-testid="priority__todo__btn"
             aria-label="priority"
             onClick={() => {
               priorityItemHandler(props.task.key);
@@ -119,6 +120,7 @@ const ItemDiv = (props) => {
           </IconButton>
 
           <IconButton
+            data-testid="delete__todo__btn"
             onClick={() => {
               deleteItemHandler(props.task.key);
             }}
@@ -136,6 +138,7 @@ const ItemDiv = (props) => {
           </IconButton>
 
           <IconButton
+            data-testid="archive__todo__btn"
             onClick={() => {
               archiveItemHandler(props.task.key);
             }}
@@ -147,6 +150,7 @@ const ItemDiv = (props) => {
             )}
           </IconButton>
           <IconButton
+            data-testid="waiting__todo__btn"
             onClick={() => {
               waitingItemHandler(props.task.key);
             }}

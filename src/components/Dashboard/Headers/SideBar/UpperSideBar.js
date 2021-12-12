@@ -14,6 +14,9 @@ const WrappedIcon = (props) => (
 const UpperSideBar = (props) => {
   const numberBadge = (arg) => {
     const list = props.list;
+    if (list === undefined) {
+      return;
+    }
     let count = 0;
     for (let i = 0; i < list.length; i++) {
       if (arg === "priority") {
@@ -77,7 +80,7 @@ const UpperSideBar = (props) => {
       >
         <ListItemIcon>
           <Badge badgeContent={numberBadge("waiting")} color="secondary">
-            <WrappedIcon> alarm </WrappedIcon>
+            <WrappedIcon data-testid="list__item__label"> alarm </WrappedIcon>
           </Badge>
         </ListItemIcon>
         <ListItemText primary="Waiting" />
